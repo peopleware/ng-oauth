@@ -11,7 +11,8 @@
     "format:prettier": "cross-env prettier --write \"**/*.{ts,js,md,html,scss}\"",
     "lint:lint": "ng lint",
     "format:lint": "ng lint --fix",
-    "lint:styles": "stylelint \"src/app/**/*.scss\""
+    "lint:styles": "stylelint \"src/app/**/*.scss\"",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,12 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~12.1.4",
+    "@angular-eslint/builder": "12.3.1",
+    "@angular-eslint/eslint-plugin": "12.3.1",
+    "@angular-eslint/eslint-plugin-template": "12.3.1",
+    "@angular-eslint/schematics": "12.3.1",
+    "@angular-eslint/template-parser": "12.3.1",
     "@angular-ru/common": "15.311.0",
     "@angular-ru/eslint-config-enterprise": "12.4.1",
     "@angular-ru/prettier": "12.2.1",
@@ -38,7 +45,10 @@
     "@types/jasmine": "~3.8.0",
     "@types/jasminewd2": "2.0.10",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "4.28.2",
+    "@typescript-eslint/parser": "4.28.2",
     "cross-env": "7.0.3",
+    "eslint": "^7.26.0",
     "git-branch-is": "4.0.0",
     "husky": "4.3.0",
     "jasmine-core": "~3.8.0",
@@ -47,6 +57,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^12.1.0",
     "prettier": "2.3.2",
     "stylelint": "13.13.1",
     "stylelint-config-standard": "22.0.0",

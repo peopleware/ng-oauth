@@ -1,3 +1,9 @@
 {
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@ppwcode/ng-oauth": ["dist/ppwcode/ng-oauth/ppwcode-ng-oauth", "dist/ppwcode/ng-oauth"]
+        }
+    },
     "extends": "@angular-ru/typescript/tsconfig.json"
 }

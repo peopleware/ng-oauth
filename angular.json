@@ -3,6 +3,46 @@
   "version": 1,
   "newProjectRoot": "",
   "projects": {
+    "@ppwcode/ng-oauth": {
+      "projectType": "library",
+      "root": "ppwcode/ng-oauth",
+      "sourceRoot": "ppwcode/ng-oauth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "ppwcode/ng-oauth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "ppwcode/ng-oauth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "ppwcode/ng-oauth/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "ppwcode/ng-oauth/src/test.ts",
+            "tsConfig": "ppwcode/ng-oauth/tsconfig.spec.json",
+            "karmaConfig": "ppwcode/ng-oauth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "ppwcode/ng-oauth/**/*.ts",
+              "ppwcode/ng-oauth/**/*.html"
+            ]
+          }
+        }
+      }
+    }
   },
   "schematics": {
     "@schematics/angular:component": {
@@ -11,5 +51,6 @@
   },
   "cli": {
     "defaultCollection": "@ppwcode/angular-schematics"
-  }
+  },
+  "defaultProject": "@ppwcode/ng-oauth"
 }
