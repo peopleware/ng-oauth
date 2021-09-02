@@ -1,0 +1,10 @@
+# auto-generated files
+/angular.json
+/package-lock.json
+.idea/
+coverage/
+node_modules/
+
+
+## compiled output
+dist/

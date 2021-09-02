@@ -1,0 +1,61 @@
+{
+  "name": "ng-oauth",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "npm run lint:prettier && npm run lint:lint && npm run lint:styles && npm run test && ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test --watch=false",
+    "lint:prettier": "cross-env prettier --check \"**/*.{ts,js,md,html,scss}\"",
+    "format:prettier": "cross-env prettier --write \"**/*.{ts,js,md,html,scss}\"",
+    "lint:lint": "ng lint",
+    "format:lint": "ng lint --fix",
+    "lint:styles": "stylelint \"src/app/**/*.scss\""
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~12.2.0",
+    "@angular/common": "~12.2.0",
+    "@angular/compiler": "~12.2.0",
+    "@angular/core": "~12.2.0",
+    "@angular/forms": "~12.2.0",
+    "@angular/platform-browser": "~12.2.0",
+    "@angular/platform-browser-dynamic": "~12.2.0",
+    "@angular/router": "~12.2.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-ru/common": "15.311.0",
+    "@angular-ru/eslint-config-enterprise": "12.4.1",
+    "@angular-ru/prettier": "12.2.1",
+    "@angular-ru/typescript": "12.4.1",
+    "@angular/cli": "~12.1.4",
+    "@angular/compiler-cli": "~12.2.0",
+    "@ppwcode/angular-schematics": "3.2.0",
+    "@types/jasmine": "~3.8.0",
+    "@types/jasminewd2": "2.0.10",
+    "@types/node": "^12.11.1",
+    "cross-env": "7.0.3",
+    "git-branch-is": "4.0.0",
+    "husky": "4.3.0",
+    "jasmine-core": "~3.8.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.0.3",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "prettier": "2.3.2",
+    "stylelint": "13.13.1",
+    "stylelint-config-standard": "22.0.0",
+    "typescript": "~4.3.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "if git-branch-is -q master; then npm run lint:prettier && npm run lint:lint && npm run lint:styles; fi"
+    }
+  },
+  "prettier": "@angular-ru/prettier"
+}

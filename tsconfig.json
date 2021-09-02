@@ -1,0 +1,3 @@
+{
+    "extends": "@angular-ru/typescript/tsconfig.json"
+}
