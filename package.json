@@ -26,6 +26,8 @@
         "@angular/router": "~12.2.0",
         "@ppwcode/js-ts-oddsandends": "^1.4.2",
         "@ppwcode/ng-testing": "^1.0.0",
+        "angular-oauth2-oidc": "^12.1.0",
+        "angular-oauth2-oidc-jwks": "^12.0.0",
         "rxjs": "~6.6.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.11.4"
@@ -43,6 +45,7 @@
         "@angular-ru/typescript": "12.4.1",
         "@angular/cli": "~12.1.4",
         "@angular/compiler-cli": "~12.2.0",
+        "@ngneat/spectator": "^8.0.4",
         "@ppwcode/angular-schematics": "3.2.0",
         "@types/jasmine": "~3.8.0",
         "@types/jasminewd2": "2.0.10",
