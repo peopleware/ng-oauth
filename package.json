@@ -4,7 +4,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "npm run lint:prettier && npm run lint:lint && npm run lint:styles && npm run test && ng build",
+        "build": "npm run lint:prettier && npm run lint:lint && npm run test && ng build",
         "watch": "ng build --watch --configuration development",
         "test": "ng test --watch=false",
         "lint:prettier": "cross-env prettier --check \"**/*.{ts,js,md,html,scss}\"",
