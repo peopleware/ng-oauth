@@ -15,6 +15,6 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
             - run: npm install
             - run: npm run build
-            - run: npm publish dist/ppwcode/ng-testing --access public
+            - run: npm publish dist/ppwcode/ng-oauth --access public
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
