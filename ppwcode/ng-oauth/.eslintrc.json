@@ -5,7 +5,7 @@
         {
             "files": ["*.ts"],
             "parserOptions": {
-                "project": ["ppwcode/ng-testing/tsconfig.lib.json"],
+                "project": ["ppwcode/ng-oauth/tsconfig.lib.json"],
                 "createDefaultProgram": true
             },
             "rules": {
