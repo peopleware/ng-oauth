@@ -1,11 +1,46 @@
 # PPWCode Angular OAuth
 
-> [Make sure that you are running your application over HTTPS!](serve-https.md)
-
 This module is the ppwcode-way of dealing with OAuth in an Angular application.
 
 The module ships with a token interceptor, a guard and a service managing the authentication process and using the
 token.
+
+## Installing
+
+Run the following command to install the package using NPM:
+
+```shell
+npm install @ppwcode/ng-oauth
+```
+
+In case you're using Yarn:
+
+```shell
+yarn add @ppwcode/ng-oauth
+```
+
+## Run over HTTPS locally
+
+Convert your application to run over `https` in development by changing the configuration of the `angular.json` file:
+
+```json
+{
+    "projects": {
+        "my-project": {
+            "architect": {
+                "serve": {
+                    "configurations": {
+                        "development": {
+                            "port": 443,
+                            "ssl": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 ## Add to your application module
 
@@ -13,7 +48,7 @@ To add the module to your application, call the `.forRoot` method when importing
 adding the `PpwcodeOAuthModule` to your application module, this will automatically add the `TokenInterceptor`.
 
 ```ts
-import { PpwcodeOAuthModule } from './ppwcode-oauth.module';
+import { PpwcodeOAuthModule } from '@ppwcode/ng-oauth';
 
 @NgModule({
     imports: [
@@ -69,7 +104,7 @@ const routes: Routes = [
 This can even be applied on lazy loaded modules:
 
 ```ts
-import { Routes } from '@angular/router';
+import { OAuthAuthenticatedGuard } from '@ppwcode/ng-oauth';
 
 const routes: Routes = [
     {
