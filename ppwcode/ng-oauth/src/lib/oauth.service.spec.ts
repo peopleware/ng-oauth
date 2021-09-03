@@ -107,6 +107,25 @@ describe('OAuthService', () => {
         });
     });
 
+    describe('identity claims', () => {
+        beforeEach(() => {
+            oidcOAuthService.getIdentityClaims.and.returnValue({ name: 'John Doe' });
+        });
+        it('should get the identity claims of an authenticated user', () => {
+            oidcOAuthService.hasValidAccessToken.and.returnValue(true);
+            oidcOAuthService.hasValidIdToken.and.returnValue(true);
+
+            expect(spectator.service.getIdentityClaims()).toEqual({ name: 'John Doe' });
+        });
+
+        it('should return null when the user is not authenticated', () => {
+            oidcOAuthService.hasValidAccessToken.and.returnValue(false);
+            oidcOAuthService.hasValidIdToken.and.returnValue(true);
+
+            expect(spectator.service.getIdentityClaims()).toBeNull();
+        });
+    });
+
     describe('configuration', () => {
         it('should pass the given configuration and set some defaults', () => {
             const configuration: PpwcodeOAuthParameters = {

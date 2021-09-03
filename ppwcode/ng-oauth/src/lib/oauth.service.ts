@@ -52,6 +52,11 @@ export class OAuthService {
         return this.oidcOAuthService.hasValidAccessToken() ? this.oidcOAuthService.getAccessToken() : null;
     }
 
+    /** Gets the identity claims for the authenticated user or null if the user is not authenticated. */
+    public getIdentityClaims<T extends Record<string, unknown>>(): T | null {
+        return this.isAuthenticated ? (this.oidcOAuthService.getIdentityClaims() as T) : null;
+    }
+
     /**
      * Configures the OAuth 2.0 flow with the given parameters.
      * Defaults to localStorage for storage and JwksValidationHandler to validate the access tokens.

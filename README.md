@@ -114,3 +114,31 @@ const routes: Routes = [
     },
 ];
 ```
+
+## Getting the claims of the authenticated user
+
+The `OAuthService.getIdentityClaims` function will give you the user claims or `null` if the user is not authenticated.
+
+Because the claims can have any structure, you have to provide type safety yourself by leveraging the generic of the
+function and make the interface extend `Record<string, unknown>`.
+
+```ts
+import { OAuthService } from '@ppwcode/ng-oauth';
+
+export interface UserClaims extends Record<string, unknown> {
+    unique_name: string;
+    upn: string;
+}
+
+export class MyComponent {
+    userClaims!: UserClaims | null;
+
+    constructor(private readonly oAuthService: OAuthService) {}
+
+    ngOnInit() {
+        this.userClaims = this.oAuthService.getIdentityClaims<UserClaims>();
+    }
+}
+```
+
+> This will not limit the claims that are returned. Claims that have not been defined in the type are also returned.
