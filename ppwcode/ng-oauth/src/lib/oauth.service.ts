@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { OAuthService as OidcOAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 /**
  * This service is the PPWCode way for dealing with OAuth 2.0 in a web application.
@@ -11,13 +11,26 @@ import { from, Observable } from 'rxjs';
  */
 @Injectable()
 export class OAuthService {
+    /** Stream emitting whether the user is authenticated. */
+    public readonly isAuthenticated$!: Observable<boolean>;
+
+    /** Stream emitting when user identity claims have changed. */
+    public readonly identityClaims$!: Observable<unknown | null>;
+
+    private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    private identityClaimsSubject: BehaviorSubject<unknown | null> = new BehaviorSubject<unknown>(null);
+
     private _redirectAppPath?: string | null;
 
     constructor(
         private readonly oidcOAuthService: OidcOAuthService,
         private readonly router: Router,
         private readonly location: Location
-    ) {}
+    ) {
+        this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+        this.identityClaims$ = this.identityClaimsSubject.asObservable();
+    }
 
     /** Gets the actively stored path to redirect to after a successful login. */
     public get redirectAppPath(): string | null {
@@ -74,7 +87,13 @@ export class OAuthService {
 
     /** Starts the authentication flow by loading the discovery document and trying to login the user. */
     public startAuthenticationFlow(): Observable<boolean> {
-        return from(this.oidcOAuthService.loadDiscoveryDocumentAndTryLogin({ preventClearHashAfterLogin: true }));
+        return from(
+            this.oidcOAuthService.loadDiscoveryDocumentAndTryLogin({ preventClearHashAfterLogin: true }).then((_) => {
+                this.isAuthenticatedSubject.next(this.isAuthenticated);
+                this.identityClaimsSubject.next(this.getIdentityClaims());
+                return _;
+            })
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService, SpyObject } from '@ngneat/spectator';
 import { OAuthModule, OAuthService as OidcOAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { take } from 'rxjs/operators';
 
 import { OAuthService, PpwcodeOAuthParameters } from './oauth.service';
 
@@ -147,12 +148,20 @@ describe('OAuthService', () => {
 
     describe('authentication flow', () => {
         it('should start the authentication flow and prevent a hash clear after login', async () => {
+            oidcOAuthService.hasValidAccessToken.and.returnValue(true);
+            oidcOAuthService.hasValidIdToken.and.returnValue(true);
+            oidcOAuthService.getIdentityClaims.and.returnValue({ name: 'John Doe' });
             oidcOAuthService.loadDiscoveryDocumentAndTryLogin.and.returnValue(Promise.resolve());
 
             await spectator.service.startAuthenticationFlow().toPromise();
+            const isAuthenticated = await spectator.service.isAuthenticated$.pipe(take(1)).toPromise();
+            const claims = await spectator.service.identityClaims$.pipe(take(1)).toPromise();
+
             expect(oidcOAuthService.loadDiscoveryDocumentAndTryLogin).toHaveBeenCalledOnceWith({
                 preventClearHashAfterLogin: true,
             });
+            expect(isAuthenticated).toEqual(true);
+            expect(claims).toEqual({ name: 'John Doe' });
         });
     });
 
