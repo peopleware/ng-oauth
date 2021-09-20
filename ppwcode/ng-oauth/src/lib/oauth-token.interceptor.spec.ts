@@ -26,9 +26,9 @@ describe('OAuthTokenInterceptor', () => {
                     provide: HTTP_INTERCEPTORS,
                     useFactory: (service: OAuthService) => new OAuthTokenInterceptor(service, ['/api']),
                     deps: [OAuthService],
-                    multi: true,
-                },
-            ],
+                    multi: true
+                }
+            ]
         });
 
         ppwcodeOAuthService = TestBed.inject(OAuthService);

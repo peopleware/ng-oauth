@@ -10,7 +10,7 @@ describe('OAuthAuthenticatedGuard', () => {
     let ppwcodeOAuthService: SpyObject<OAuthService>;
     const createService = createServiceFactory({
         service: OAuthAuthenticatedGuard,
-        mocks: [OAuthService],
+        mocks: [OAuthService]
     });
 
     beforeEach(() => {

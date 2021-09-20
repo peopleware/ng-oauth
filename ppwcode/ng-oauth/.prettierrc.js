@@ -1,5 +1,3 @@
 module.exports = {
-    ...require('@angular-ru/prettier'),
-    // Overrides.
-    trailingComma: 'es5',
+    ...require('@angular-ru/prettier')
 };

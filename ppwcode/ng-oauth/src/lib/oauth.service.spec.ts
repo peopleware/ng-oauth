@@ -16,7 +16,7 @@ describe('OAuthService', () => {
     const createService = createServiceFactory({
         service: OAuthService,
         imports: [OAuthModule.forRoot(), RouterTestingModule],
-        mocks: [OidcOAuthService, Router, Location],
+        mocks: [OidcOAuthService, Router, Location]
     });
 
     beforeEach(() => {
@@ -135,7 +135,7 @@ describe('OAuthService', () => {
                 resource: 'super-secret-resource',
                 redirectUri: 'https://myawesomeapplication.com',
                 responseType: 'token',
-                scope: 'openid',
+                scope: 'openid'
             };
             spectator.service.configureOAuth(configuration);
 
@@ -158,7 +158,7 @@ describe('OAuthService', () => {
             const claims = await spectator.service.identityClaims$.pipe(take(1)).toPromise();
 
             expect(oidcOAuthService.loadDiscoveryDocumentAndTryLogin).toHaveBeenCalledOnceWith({
-                preventClearHashAfterLogin: true,
+                preventClearHashAfterLogin: true
             });
             expect(isAuthenticated).toEqual(true);
             expect(claims).toEqual({ name: 'John Doe' });

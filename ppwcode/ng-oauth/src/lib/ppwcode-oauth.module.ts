@@ -9,7 +9,7 @@ import { OAuthTokenInterceptor } from './oauth-token.interceptor';
 
 @NgModule({
     declarations: [],
-    imports: [CommonModule, OAuthModule.forRoot()],
+    imports: [CommonModule, OAuthModule.forRoot()]
 })
 export class PpwcodeOAuthModule {
     public static forRoot(baseRoutesWithAuthorizationHeader: Array<string>): ModuleWithProviders<PpwcodeOAuthModule> {
@@ -23,9 +23,9 @@ export class PpwcodeOAuthModule {
                     useFactory: (service: OAuthService) =>
                         new OAuthTokenInterceptor(service, baseRoutesWithAuthorizationHeader),
                     deps: [OAuthService],
-                    multi: true,
-                },
-            ],
+                    multi: true
+                }
+            ]
         };
     }
 }

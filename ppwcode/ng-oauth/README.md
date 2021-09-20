@@ -79,7 +79,7 @@ export class AppComponent {
             clientId: '',
             resource: '',
             responseType: '',
-            scope: '',
+            scope: ''
         });
     }
 }
@@ -96,8 +96,8 @@ const routes: Routes = [
     {
         path: 'awesome',
         component: MyAwesomeComponent,
-        canActivate: [OAuthAuthenticatedGuard],
-    },
+        canActivate: [OAuthAuthenticatedGuard]
+    }
 ];
 ```
 
@@ -110,8 +110,8 @@ const routes: Routes = [
     {
         path: 'children',
         loadChildren: () => import('./children/children.module').then((m) => m.ChildrenModule),
-        canActivate: [OAuthAuthenticatedGuard],
-    },
+        canActivate: [OAuthAuthenticatedGuard]
+    }
 ];
 ```
 

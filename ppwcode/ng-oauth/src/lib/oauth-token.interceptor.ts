@@ -20,7 +20,7 @@ export class OAuthTokenInterceptor implements HttpInterceptor {
 
         if (this.urlPrefixesToHandle.some((prefix) => request.url.startsWith(prefix)) && token !== null) {
             const requestWithAuthorizationHeader = request.clone({
-                setHeaders: { Authorization: `Bearer ${this.ppwcodeOAuthService.accessToken}` },
+                setHeaders: { Authorization: `Bearer ${this.ppwcodeOAuthService.accessToken}` }
             });
 
             return next.handle(requestWithAuthorizationHeader);
