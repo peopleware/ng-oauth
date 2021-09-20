@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { OAuthService } from './oauth.service';
 
-export const AUTHORIZATION_HEADER_URL_BASE = new InjectionToken<Array<string>>(
+export const AUTHORIZATION_HEADER_URL_BASE: InjectionToken<Array<string>> = new InjectionToken<Array<string>>(
     'base url to send authorization header to'
 );
 
@@ -16,10 +16,10 @@ export class OAuthTokenInterceptor implements HttpInterceptor {
     ) {}
 
     public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-        const token = this.ppwcodeOAuthService.accessToken;
+        const token: string | null = this.ppwcodeOAuthService.accessToken;
 
-        if (this.urlPrefixesToHandle.some((prefix) => request.url.startsWith(prefix)) && token !== null) {
-            const requestWithAuthorizationHeader = request.clone({
+        if (this.urlPrefixesToHandle.some((prefix: string) => request.url.startsWith(prefix)) && token !== null) {
+            const requestWithAuthorizationHeader: HttpRequest<unknown> = request.clone({
                 setHeaders: { Authorization: `Bearer ${this.ppwcodeOAuthService.accessToken}` }
             });
 

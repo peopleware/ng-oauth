@@ -21,7 +21,7 @@ export class OAuthAuthenticatedGuard implements CanActivate {
     public canActivate(): Observable<UrlTree | boolean> {
         return this.ppwCodeOAuthService.startAuthenticationFlow().pipe(
             map(() => this.ppwCodeOAuthService.getAuthenticatedUrlTree()),
-            map((urlTree) => {
+            map((urlTree: UrlTree | null | undefined) => {
                 if (urlTree === null) {
                     return false;
                 }

@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, TestRequest } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -43,7 +43,7 @@ describe('OAuthTokenInterceptor', () => {
             HttpCallTester.expectOneCallToUrl('/api/url')
                 .whenSubscribingTo(backendApiService.getAll())
                 .withResponse([])
-                .expectRequestTo((request) => {
+                .expectRequestTo((request: TestRequest) => {
                     expect(request.request.headers.has('Authorization')).toBeTrue();
                     expect(request.request.headers.get('Authorization')).toEqual('Bearer supersecrettoken');
                 })
@@ -56,7 +56,7 @@ describe('OAuthTokenInterceptor', () => {
             HttpCallTester.expectOneCallToUrl('/api/url')
                 .whenSubscribingTo(backendApiService.getAll())
                 .withResponse([])
-                .expectRequestTo((request) => {
+                .expectRequestTo((request: TestRequest) => {
                     expect(request.request.headers.has('Authorization')).toBeFalse();
                 })
                 .verify();
@@ -70,7 +70,7 @@ describe('OAuthTokenInterceptor', () => {
             HttpCallTester.expectOneCallToUrl('/url')
                 .whenSubscribingTo(noBackendApiService.getAll())
                 .withResponse([])
-                .expectRequestTo((request) => {
+                .expectRequestTo((request: TestRequest) => {
                     expect(request.request.headers.has('Authorization')).toBeFalse();
                 })
                 .verify();

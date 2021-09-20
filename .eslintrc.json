@@ -25,10 +25,6 @@
                         "style": "kebab-case"
                     }
                 ],
-                "comma-dangle": "off",
-                "prettier/prettier": "off",
-                "max-params-no-constructor/max-params-no-constructor": "off",
-                "@typescript-eslint/typedef": "off",
                 "@typescript-eslint/explicit-function-return-type": ["error", {
                     "allowExpressions": true
                 }],

@@ -88,11 +88,13 @@ export class OAuthService {
     /** Starts the authentication flow by loading the discovery document and trying to login the user. */
     public startAuthenticationFlow(): Observable<boolean> {
         return from(
-            this.oidcOAuthService.loadDiscoveryDocumentAndTryLogin({ preventClearHashAfterLogin: true }).then((_) => {
-                this.isAuthenticatedSubject.next(this.isAuthenticated);
-                this.identityClaimsSubject.next(this.getIdentityClaims());
-                return _;
-            })
+            this.oidcOAuthService
+                .loadDiscoveryDocumentAndTryLogin({ preventClearHashAfterLogin: true })
+                .then((_: boolean) => {
+                    this.isAuthenticatedSubject.next(this.isAuthenticated);
+                    this.identityClaimsSubject.next(this.getIdentityClaims());
+                    return _;
+                })
         );
     }
 
@@ -115,7 +117,7 @@ export class OAuthService {
         } else if (this.hasActiveRedirectPath) {
             // We just came back after a successful authentication flow. Get the path the user initially wanted to go to (will clear it
             // from the session storage) and set it to null again so that we enter here only once.
-            const pathToNavigateTo = this.redirectAppPath;
+            const pathToNavigateTo: string | null = this.redirectAppPath;
             this.redirectAppPath = null;
 
             return this.router.createUrlTree([pathToNavigateTo]);

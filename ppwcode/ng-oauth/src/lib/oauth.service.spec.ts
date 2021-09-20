@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Router, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { createServiceFactory, SpectatorService, SpyObject } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService, SpectatorServiceFactory, SpyObject } from '@ngneat/spectator';
 import { OAuthModule, OAuthService as OidcOAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { take } from 'rxjs/operators';
@@ -13,7 +13,7 @@ describe('OAuthService', () => {
     let oidcOAuthService: SpyObject<OidcOAuthService>;
     let locationService: SpyObject<Location>;
     let router: SpyObject<Router>;
-    const createService = createServiceFactory({
+    const createService: SpectatorServiceFactory<OAuthService> = createServiceFactory({
         service: OAuthService,
         imports: [OAuthModule.forRoot(), RouterTestingModule],
         mocks: [OidcOAuthService, Router, Location]
@@ -44,7 +44,7 @@ describe('OAuthService', () => {
     it('should get the app path from the session storage and remove it', () => {
         sessionStorage.setItem('ppwcode-redirect-app-path', '/applications');
 
-        const appPath = spectator.service.redirectAppPath;
+        const appPath: string | null = spectator.service.redirectAppPath;
         expect(sessionStorage.getItem('ppwcode-redirect-app-path')).toBeNull();
         expect(appPath).toEqual('/applications');
         expect(spectator.service.redirectAppPath).toEqual('/applications');
@@ -154,8 +154,8 @@ describe('OAuthService', () => {
             oidcOAuthService.loadDiscoveryDocumentAndTryLogin.and.returnValue(Promise.resolve());
 
             await spectator.service.startAuthenticationFlow().toPromise();
-            const isAuthenticated = await spectator.service.isAuthenticated$.pipe(take(1)).toPromise();
-            const claims = await spectator.service.identityClaims$.pipe(take(1)).toPromise();
+            const isAuthenticated: boolean = await spectator.service.isAuthenticated$.pipe(take(1)).toPromise();
+            const claims: unknown = await spectator.service.identityClaims$.pipe(take(1)).toPromise();
 
             expect(oidcOAuthService.loadDiscoveryDocumentAndTryLogin).toHaveBeenCalledOnceWith({
                 preventClearHashAfterLogin: true
@@ -171,7 +171,7 @@ describe('OAuthService', () => {
             oidcOAuthService.hasValidIdToken.and.returnValue(false);
             locationService.path.and.returnValue('/applications');
 
-            const urlTree = spectator.service.getAuthenticatedUrlTree();
+            const urlTree: UrlTree | null | undefined = spectator.service.getAuthenticatedUrlTree();
             expect(urlTree).toBeNull();
             expect(oidcOAuthService.initLoginFlow).toHaveBeenCalledTimes(1);
             expect(spectator.service.redirectAppPath).toEqual('/applications');
@@ -181,18 +181,18 @@ describe('OAuthService', () => {
             oidcOAuthService.hasValidAccessToken.and.returnValue(true);
             oidcOAuthService.hasValidIdToken.and.returnValue(true);
 
-            const urlTree = spectator.service.getAuthenticatedUrlTree();
+            const urlTree: UrlTree | null | undefined = spectator.service.getAuthenticatedUrlTree();
             expect(urlTree).toBeUndefined();
         });
 
         it('should return the url tree for a specific redirect path if the user is authenticated', () => {
-            const mockedUrlTree = new UrlTree();
+            const mockedUrlTree: UrlTree = new UrlTree();
             spectator.service.redirectAppPath = '/applications';
             router.createUrlTree.and.returnValue(mockedUrlTree);
             oidcOAuthService.hasValidAccessToken.and.returnValue(true);
             oidcOAuthService.hasValidIdToken.and.returnValue(true);
 
-            const urlTree = spectator.service.getAuthenticatedUrlTree();
+            const urlTree: UrlTree | null | undefined = spectator.service.getAuthenticatedUrlTree();
             expect(urlTree).toBe(mockedUrlTree);
             expect(spectator.service.redirectAppPath).toBeNull();
         });
