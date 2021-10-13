@@ -1,14 +1,20 @@
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, TestRequest } from '@angular/common/http/testing';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpCallTester } from '@ppwcode/ng-testing';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { OAuthService } from './oauth.service';
-import { OAuthTokenInterceptor } from './oauth-token.interceptor';
+import {
+    AUTHORIZATION_HEADER_URL_BASE,
+    OAuthTokenInterceptor,
+    SKIP_AUTHORIZATION_HEADER_URL_BASE
+} from './oauth-token.interceptor';
+import { UrlPrefixLoader } from './url-prefix-loader';
 
 describe('OAuthTokenInterceptor', () => {
     let ppwcodeOAuthService: OAuthService;
@@ -20,12 +26,23 @@ describe('OAuthTokenInterceptor', () => {
             imports: [HttpClientTestingModule, OAuthModule.forRoot(), RouterTestingModule],
             providers: [
                 OAuthService,
+                OAuthTokenInterceptor,
+                UrlLoaderService,
                 BackendApiService,
                 NoBackendApiService,
                 {
+                    provide: AUTHORIZATION_HEADER_URL_BASE,
+                    useValue: ['/api']
+                },
+                {
+                    provide: SKIP_AUTHORIZATION_HEADER_URL_BASE,
+                    useValue: []
+                },
+                {
                     provide: HTTP_INTERCEPTORS,
-                    useFactory: (service: OAuthService) => new OAuthTokenInterceptor(service, ['/api']),
-                    deps: [OAuthService],
+                    useFactory: (service: OAuthService, injector: Injector) =>
+                        new OAuthTokenInterceptor(service, ['/api'], [], injector),
+                    deps: [OAuthService, Injector],
                     multi: true
                 }
             ]
@@ -34,6 +51,24 @@ describe('OAuthTokenInterceptor', () => {
         ppwcodeOAuthService = TestBed.inject(OAuthService);
         backendApiService = TestBed.inject(BackendApiService);
         noBackendApiService = TestBed.inject(NoBackendApiService);
+    });
+
+    it('should load the url prefixes', async () => {
+        const interceptor: OAuthTokenInterceptor = TestBed.inject(OAuthTokenInterceptor);
+        const prefixes: Array<string> = await interceptor
+            .loadUrlPrefixes([
+                '/api',
+                new UrlPrefixLoader<UrlLoaderService>(UrlLoaderService, (loaderService: UrlLoaderService) =>
+                    loaderService.loadStaticUrl()
+                ),
+                new UrlPrefixLoader<UrlLoaderService>(UrlLoaderService, (loaderService: UrlLoaderService) =>
+                    loaderService.loadAsyncUrl()
+                )
+            ])
+            .pipe(take(1))
+            .toPromise();
+
+        expect(prefixes).toEqual(['/api', '/static-url-prefix', '/async-url-prefix']);
     });
 
     describe('internal requests', () => {
@@ -93,5 +128,16 @@ export class BackendApiService {
 
     public getAll(): Observable<unknown> {
         return this.httpClient.get('/api/url');
+    }
+}
+
+@Injectable()
+export class UrlLoaderService {
+    public loadStaticUrl(): string {
+        return '/static-url-prefix';
+    }
+
+    public loadAsyncUrl(): Observable<string> {
+        return of('/async-url-prefix');
     }
 }
