@@ -15,7 +15,7 @@ import { OAuthService } from './oauth.service';
  * If the auth service returns undefined, the user is authenticated and should be able to see the route he wanted.
  */
 @Injectable()
-export class OAuthAuthenticatedGuard  {
+export class OAuthAuthenticatedGuard {
     constructor(private readonly ppwCodeOAuthService: OAuthService) {}
 
     public canActivate(): Observable<UrlTree | boolean> {
