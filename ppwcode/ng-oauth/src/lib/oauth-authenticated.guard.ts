@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import { OAuthService } from './oauth.service';
  * If the auth service returns undefined, the user is authenticated and should be able to see the route he wanted.
  */
 @Injectable()
-export class OAuthAuthenticatedGuard implements CanActivate {
+export class OAuthAuthenticatedGuard  {
     constructor(private readonly ppwCodeOAuthService: OAuthService) {}
 
     public canActivate(): Observable<UrlTree | boolean> {
