@@ -50,7 +50,8 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ppwcode/angular-schematics"
-  },
-  "defaultProject": "@ppwcode/ng-oauth"
+    "schematicCollections": [
+      "@ppwcode/angular-schematics"
+    ]
+  }
 }
