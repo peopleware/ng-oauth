@@ -6,6 +6,7 @@ import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
+/* eslint-disable-next-line */
 (window as any).global = window;
 
 // First, initialize the Angular testing environment.
