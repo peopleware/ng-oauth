@@ -2,11 +2,11 @@
     "name": "@ppwcode/ng-oauth",
     "version": "1.3.0",
     "peerDependencies": {
-        "@angular/common": "^12.1.0",
-        "@angular/core": "^12.1.0",
+        "@angular/common": "^16",
+        "@angular/core": "^16",
         "@ppwcode/js-ts-oddsandends": "^1.4.2",
-        "angular-oauth2-oidc": "^12.1.0",
-        "angular-oauth2-oidc-jwks": "^12.0.0",
+        "angular-oauth2-oidc": "^15",
+        "angular-oauth2-oidc-jwks": "^15",
         "rxjs": "^6.6.7"
     },
     "dependencies": {
